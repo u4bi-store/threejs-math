@@ -27,15 +27,17 @@
             renderer = new THREE.WebGLRenderer(),
             camera   = new THREE.PerspectiveCamera( view.angle, view.aspect, view. near, view.far ),
             scene    = new THREE.Scene(),
+            world    = new THREE.Object3D(),
             container = document.getElementById('container');
         
-        var 
-            cube;
+        var cube;
 
         init();
 
         function init(){
+            
             scene.add(camera);
+            scene.add(world);
             camera.position.z = 20;
 
             renderer.setSize( screen.width, screen.height );
@@ -44,9 +46,11 @@
 
             var geometry = new THREE.BoxGeometry(1, 1, 1),
                 material = new THREE.MeshBasicMaterial({ color : 0x00FF00 }),
-                cube = new THREE.Mesh( geometry, material );
             
-            scene.add(cube);
+            cube = new THREE.Mesh( geometry, material );
+            
+            world.add(cube);
+
             render();
 
         }
