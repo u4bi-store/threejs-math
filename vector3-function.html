@@ -1,0 +1,154 @@
+<!doctype html>
+<html>
+    <head>
+        <title>threejs - vector3-function</title>
+        <style>
+            
+        </style>
+    </head>
+    <body>
+
+        <div id="container"></div>
+
+        <script src="vendor/threejs.min.js"></script>
+
+		<script>
+
+        var screen = {
+                width  : 400,
+                height : 300
+            },
+            view = {
+                angle  : 45,
+                aspect : screen.width / screen.height,
+                near   : 0.1,
+                far    : 10000
+            },
+            renderer = new THREE.WebGLRenderer(),
+            camera   = new THREE.PerspectiveCamera( view.angle, view.aspect, view. near, view.far ),
+            scene    = new THREE.Scene(),
+            world    = new THREE.Object3D(),
+            container = document.getElementById('container');
+        
+        var cube;
+
+        init();
+
+        function init(){
+            
+            scene.add(camera);
+            scene.add(world);
+            camera.position.z = 10;
+
+            renderer.setSize( screen.width, screen.height );
+
+            container.appendChild( renderer.domElement );
+
+            var geometry = new THREE.BoxGeometry(1, 1, 1),
+                material = new THREE.MeshBasicMaterial({ color : 0x00FF00 });
+            
+            cube = new THREE.Mesh( geometry, material );
+            
+            world.add(cube);
+
+
+            render();
+            
+            fun(world);
+
+            
+        }
+
+        function render(){
+            requestAnimationFrame( render ); 
+            renderer.render( scene, camera );
+
+        }
+
+        function fun(object){
+            console.log('isVector3' , object.position.isVector3);
+            console.log('x' , object.position.x);
+            console.log('y' , object.position.y);
+            console.log('z' , object.position.z);
+
+            object.position.add(new THREE.Vector3(2, 2, 2));
+            object.position.add(new THREE.Vector3(2, 2, 2));
+            console.log('이 객체의 포지션 벡터값에 벡터를 더함 : add ', object.position);
+
+            object.position.addScalar(1);
+            console.log('이 객체의 포지션 x,y,z 벡터값에 스칼라값을 더함 : addScalar ', object.position);
+
+            object.position.addScaledVector(new THREE.Vector3(1, 1, 1), 2);            
+            console.log('x,y,z벡터값에 스칼라를 곱한 값을 이 객체의 포지션 벡터에 더함 : addScaledVector ', object.position);
+
+            object.position.addVectors(new THREE.Vector3(1, 1, 1), new THREE.Vector3(1, 1, 1));
+            console.log('양쪽 벡터값을 더한 값을 이 객체의 포지션 벡터값으로 지정함 : addVectors ', object.position);
+
+            object.position.applyAxisAngle(new THREE.Vector3(1, 1, 1), Math.PI/2);
+            console.log(' 축으로 지정된 벡터에 회전 각도 지정 (radians)' ,object.position);
+
+            object.position.applyEuler(object.rotation);
+            console.log(' applyEuler ' , object.position);
+
+            object.position.applyMatrix4(object.matrix);
+            console.log(' applyMatrix4 ' ,object.position);
+
+            object.position.applyQuaternion(object.quaternion);
+            console.log(' applyQuaternion ' ,object.position);
+
+            
+            // clamp는 벡터로 지정한 최대최소 보다 높거나 낮으면 미리 지정한 최대최소 값으로 대체
+
+            console.log('clamp 최소 0 최대 5 : ', object.position.clamp(new THREE.Vector3(0,0,0), new THREE.Vector3(5,5,5)));
+            
+            console.log('clamp 최소 0 최대 2 : ', object.position.clamp(new THREE.Vector3(0,0,0), new THREE.Vector3(2,2,2)));
+
+            console.log('clamp 최소 5 최대 10 : ', object.position.clamp(new THREE.Vector3(5,5,5), new THREE.Vector3(10,10,10)));
+
+            console.log('포지션 벡터값에서 인자 벡터까지의 거리 : distanceTo', object.position.distanceTo(new THREE.Vector3(2,2,2)));
+            console.log('포지션 벡터값에서 인자 벡터까지의 manhattan 거리 : distanceToManhattan', object.position.distanceToManhattan(new THREE.Vector3(2,2,2)));
+            console.log('포지션 벡터값에서 인자 벡터까지의 squared 거리 : distanceToSquared', object.position.distanceToSquared(new THREE.Vector3(2,2,2)));
+
+            console.log('포지션 벡터값에서 인자 벡터값을 나눔 : divide ', object.position.divide(new THREE.Vector3(2,2,2)));
+            console.log('포지션 벡터값에서 인자 벡터값을 나눔 : divide ', object.position.divide(new THREE.Vector3(2,2,2)));
+
+            console.log('포지션 벡터값에서 인자 벡터값을 나눔 : divide ', object.position.divide(new THREE.Vector3(1,1,1)));
+
+            console.log('포지션 벡터값을 인자로 들어온 스칼라로 나눔 : divideScalar ', object.position.divideScalar(2));
+            console.log('포지션 벡터값을 인자로 들어온 스칼라로 나눔 : divideScalar ', object.position.divideScalar(1));
+
+            console.log('내적을 계산 : dot ', object.position.dot(object.position));
+            console.log('index 0 : x 반환 ', object.position.getComponent(0));
+            console.log('index 1 : y 반환 ', object.position.getComponent(1));
+            console.log('index 2 : z 반환 ', object.position.getComponent(2));
+
+            console.log('0,0,0에서 유클리드 길이 계산 : length ', object.position.length());
+
+            console.log('manhattan 길이 계산 : lengthManhattan ', object.position.lengthManhattan());
+
+            console.log('0,0,0에서 유클리드 길이의 제곱 계산 : length ', object.position.lengthSq());
+
+            console.log('position', object.position);
+
+            console.log('이 포지션의 벡터를 반전 : negate', object.position.negate());
+
+            console.log('이 벡터를 단위 벡터로 변환 normalize', object.position.normalize());
+
+            object.position.set(2,2,2);
+            console.log('1,1,1 벡터값보다 작다면 max값으로 지정 ', object.position.max(new THREE.Vector3(1,1,1)));
+            console.log('3,3,3 벡터값보다 크다면 min값으로 지정 ', object.position.min(new THREE.Vector3(3,3,3)));
+
+            console.log('포지션 벡터값에 벡터를 곱함 ', object.position.multiply(new THREE.Vector3(2,2,2)));
+            console.log('포지션 벡터값에 벡터를 곱함 ', object.position.multiply(new THREE.Vector3(2,2,2)));
+            console.log('포지션 벡터값에 스칼라를 곱함 ', object.position.multiplyScalar(2));
+             
+            console.log('배열로 반환 : toArray ' , object.position.toArray());
+            
+            console.log('포지션 벡터값을 인자로 대체함 : setX, setY, setZ ' , object.position.setX(2),object.position.setY(0),object.position.setZ(2));
+            
+        }
+
+        </script>
+    </body>
+
+</html>
