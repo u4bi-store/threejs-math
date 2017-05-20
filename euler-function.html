@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+    <head>
+        <title>threejs - object3d-function</title>
+        <style>
+            
+        </style>
+    </head>
+    <body>
+
+        <div id="container"></div>
+
+        <script src="vendor/threejs.min.js"></script>
+
+		<script>
+
+        var screen = {
+                width  : 400,
+                height : 300
+            },
+            view = {
+                angle  : 45,
+                aspect : screen.width / screen.height,
+                near   : 0.1,
+                far    : 10000
+            },
+            renderer = new THREE.WebGLRenderer(),
+            camera   = new THREE.PerspectiveCamera( view.angle, view.aspect, view. near, view.far ),
+            scene    = new THREE.Scene(),
+            world    = new THREE.Object3D(),
+            container = document.getElementById('container');
+        
+        init();
+
+        function init(){
+            
+            scene.add(camera);
+            scene.add(world);
+            camera.position.z = 20;
+
+            renderer.setSize( screen.width, screen.height );
+
+            container.appendChild( renderer.domElement );
+
+            render();
+            fun(world);
+
+            
+        }
+
+        function render(){
+            requestAnimationFrame( render ); 
+            renderer.render( scene, camera );
+
+        }
+
+        function fun(object){
+            /* https://threejs.org/docs/index.html#api/math/Euler */
+            console.log('이 객체가 Euler인지 여부 확인 : object.rotation.isEuler', object.rotation.isEuler);
+            console.log('이 객체 회전 적용 순서 기본 XYZ : object.rotation.order', object.rotation.order);
+            console.log('이 객체의 회전 x축 : object.rotation.x', object.rotation.x);
+            console.log('이 객체의 회전 y축 : object.rotation.y', object.rotation.y);
+            console.log('이 객체의 회전 z축 : object.rotation.z', object.rotation.z);
+
+            // 이 객체에 특정 객체의 로테이션을 카피함 object.rotation.copy(euler)
+
+            // 동일한 속성들을 가진 오일러를 반환함
+            var temp = object.rotation.clone();
+            console.log('clone 반환 : ', temp);
+
+            if(temp.equals(object.rotation)) console.log('동일성을 판단함 동일하면 true');
+
+            object.rotation.fromArray([ 3, 3, 3, 'XYZ' ]); // 이 객체의 로테이션 오일러를 배열로 지정
+            console.log('fromArray 확인', object.rotation);
+
+            object.rotation.set(1 ,1, 1, 'XYZ'); // 이 객체의 로테이션 오일러의 x y z order를 (오일러는 radian으로 지정)
+            console.log('set 확인', object.rotation);
+            
+            // 이 객체의 로테이션에 4x4 매트릭스 주입 : object.rotation.setFromRotationMatrix(m, order, update)
+            // object.rotation.setFromRotationMatrix(object.matrix); // 예제
+
+            // object.rotation.setFromQuaternion(q, order, update) 이 객체의 로테이션에 쿼터니언 주입
+            // 예제 : object.rotation.setFromQuaternion(object.quaternion)
+            
+            // object.rotation.setFromVector3(vector3, order) 이 객체의 로테이션에 백터 3 주입
+            // 예제 : object.rotation.setFromVector3(new THREE.Vector3(2, 3 ,5));
+
+            console.log('이 객체의 로테이션 오일러에 설정된 값을 배열로 변환하여 반환 ',object.rotation.toArray());
+            console.log('이 객체의 로테이션 오일러에 속성값을 백터로 반환', object.rotation.toVector3());
+        }
+
+        </script>
+    </body>
+
+</html>
