@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+    <head>
+        <title>threejs - vector</title>
+        <style>
+            
+        </style>
+    </head>
+    <body>
+
+        <div id="container"></div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script>
+		<script src="http://threejs.org/examples/js/controls/OrbitControls.js"></script>
+        <script>
+
+        var screen = {
+                width  : 400,
+                height : 300
+            },
+            view = {
+                angle  : 45,
+                aspect : screen.width / screen.height,
+                near   : 0.1,
+                far    : 10000
+            },
+            renderer = new THREE.WebGLRenderer(),
+            camera   = new THREE.PerspectiveCamera( view.angle, view.aspect, view. near, view.far ),
+            scene    = new THREE.Scene(),
+	        controls = new THREE.OrbitControls( camera );
+            container = document.getElementById('container');
+        
+        var 
+            root,
+            cube = [];
+
+        function setup(){        
+            scene.add(camera);
+            scene.add(new THREE.AxisHelper(20));
+            camera.position.set(10,10,10);
+            camera.lookAt(new THREE.Vector3(0,0,0));
+            controls.minDistance = 10;
+            controls.maxDistance = 50;
+            renderer.setSize(screen.width, screen.height);
+            container.appendChild(renderer.domElement); 
+        }
+
+        function init(){
+            setup();
+    
+            root = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color : 0xFFFFFF, wireframe: true}));
+            scene.add(root);
+
+            for(var i = 3; i--;){
+                cube.push(new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial({ color : 0xFFFFFF, wireframe: true})));
+                scene.add(cube[cube.length-1]);
+            }
+
+            cube[0].position.setX(5);
+            cube[0].material.color.setStyle('red');
+
+            cube[1].position.setY(5);
+            cube[1].material.color.setStyle('green');
+            
+            cube[2].position.setZ(5);
+            cube[2].material.color.setStyle('blue');
+                        
+            render();
+
+        }
+
+        function render(){
+            requestAnimationFrame( render ); 
+            
+            animate();
+            renderer.render( scene, camera );
+        }
+
+        function animate(){
+
+        }
+        init();
+        </script>
+    </body>
+
+</html>
