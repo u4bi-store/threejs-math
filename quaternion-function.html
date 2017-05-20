@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <title>threejs - quick start</title>
+        <title>threejs - quaternion-function</title>
         <style>
             
         </style>
@@ -38,11 +38,11 @@
             
             scene.add(camera);
             scene.add(world);
-            camera.position.z = 20;
+            camera.position.z = 3;
 
             renderer.setSize( screen.width, screen.height );
 
-            container.appendChild( renderer.domElement ); 
+            container.appendChild( renderer.domElement );
 
             var geometry = new THREE.BoxGeometry(1, 1, 1),
                 material = new THREE.MeshBasicMaterial({ color : 0x00FF00 });
@@ -51,7 +51,10 @@
             
             world.add(cube);
 
+
             render();
+            
+            fun(world);
 
             
         }
@@ -59,7 +62,11 @@
         function render(){
             requestAnimationFrame( render ); 
             renderer.render( scene, camera );
-            
+
+        }
+
+        function fun(object){
+
 
         }
 
