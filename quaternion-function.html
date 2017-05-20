@@ -66,7 +66,72 @@
         }
 
         function fun(object){
+            console.log(object.quaternion.x);
+            console.log(object.quaternion.y);
+            console.log(object.quaternion.z);
+            console.log(object.quaternion.w);
 
+
+            // 동일한 속성들을 가진 쿼터니언을 반환함
+            var temp = object.quaternion.clone();
+            console.log('clone 반환 : ', temp);
+
+            // 이 객체에 특정 객체의 쿼터니언을 카피함 object.quaternion.copy(quaternion)
+
+            if(temp.equals(object.quaternion)) console.log('동일성을 판단함 동일하면 true');
+            
+            object.quaternion.conjugate();
+            console.log('쿼터니언 반대방향으로 전환', object.quaternion);
+
+            object.quaternion.inverse();
+            console.log('쿼터니언 반전', object.quaternion);
+            
+            object.quaternion.fromArray([
+                0.1,
+                0.1,
+                0.1,
+                0.1
+            ])
+            console.log('fromArray : ',object.quaternion);
+
+            // dot(v)은 쿼터니온 v와 내적의 내적을 계산함 
+            console.log('world dot : ',object.quaternion.dot(object.quaternion));
+            console.log('cube dot : ',object.quaternion.dot(cube.quaternion));
+            
+            console.log('length 유클리드 길이 (직선 길이)를 4 차원 벡터로 간주 : ',object.quaternion.length());
+            console.log('lengthSq (length보다 좀더 효율적): ',object.quaternion.lengthSq());
+            
+            // 이 쿼터니언을 정규화함 : normalize()
+            console.log('normalize 전 : ', object.quaternion);
+            object.quaternion.normalize();
+            console.log('normalize 후: ', object.quaternion);
+
+            object.quaternion.multiply(object.quaternion);
+            console.log('multiply : 쿼터니언에 쿼터니언을 곱함 ', object.quaternion);
+            
+            object.quaternion.set(0.5, 0.5, 0.5, 0.5);
+            console.log('set : ', object.quaternion);
+
+            object.quaternion.setFromAxisAngle(object.quaternion, Math.PI/2);
+            console.log('setFromAxisAngle : ', object.quaternion);
+
+            object.quaternion.setFromAxisAngle(object.quaternion, Math.PI/3);
+            console.log('setFromAxisAngle : ', object.quaternion);
+
+            object.quaternion.normalize();
+            console.log('normalize : ', object.quaternion);
+            object.quaternion.setFromAxisAngle(object.quaternion, Math.PI/2);
+            console.log('setFromAxisAngle : ', object.quaternion);
+
+            object.quaternion.setFromEuler(object.rotation);
+            console.log('setFromEuler : ', object.quaternion);
+
+            object.quaternion.setFromRotationMatrix(object.matrix);
+            console.log('setFromRotationMatrix : ', object.quaternion);
+
+            console.log('toArray : ', object.quaternion.toArray());
+
+            console.log('객체의 쿼터니언을 벡터 vFrom방향을 벡터 vTo방향으로 회전시키는데 필요한 회전을 반환함 : setFromUnitVectors ', object.quaternion.setFromUnitVectors(object.quaternion, object.quaternion));
 
         }
 
