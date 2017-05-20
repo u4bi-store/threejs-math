@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+    <head>
+        <title>threejs - object3d-function</title>
+        <style>
+            
+        </style>
+    </head>
+    <body>
+
+        <div id="container"></div>
+
+        <script src="vendor/threejs.min.js"></script>
+
+		<script>
+
+        var screen = {
+                width  : 400,
+                height : 300
+            },
+            view = {
+                angle  : 45,
+                aspect : screen.width / screen.height,
+                near   : 0.1,
+                far    : 10000
+            },
+            renderer = new THREE.WebGLRenderer(),
+            camera   = new THREE.PerspectiveCamera( view.angle, view.aspect, view. near, view.far ),
+            scene    = new THREE.Scene(),
+            world    = new THREE.Object3D(),
+            container = document.getElementById('container');
+        
+        init();
+
+        function init(){
+            
+            scene.add(camera);
+            scene.add(world);
+            camera.position.z = 20;
+
+            renderer.setSize( screen.width, screen.height );
+
+            container.appendChild( renderer.domElement );
+
+            render();
+            fun(world);
+
+            
+        }
+
+        function render(){
+            requestAnimationFrame( render ); 
+            renderer.render( scene, camera );
+
+        }
+
+        function fun(object){
+            /* https://threejs.org/docs/index.html#api/core/Object3D */
+            console.log('객체가 쇄도우맵으로 렌더링되는지 여부 : castShadow : ', object.castShadow);
+            
+            console.log('객체의 하위 객체들을 배열로 출력 : children', object.children);
+            
+            console.log('객체의 아이디 : id', object.id);
+            
+            console.log('Object3D인지 유무 : isObject3D', object.isObject3D);
+            
+            console.log('매트릭스 : matrix', object.matrix);
+            
+            console.log('전역 매트릭스(부모가 없다면 로컬과 동일) : matrixWorld', object.matrixWorld);
+            
+            console.log('객체의 이름 기본 ""로 비어있음 : name', object.name);
+            
+            console.log('객체의 상위 객체를 출력 : children', object.parent);
+            
+            console.log('객체의 위치 : position', object.position);
+            console.log('객체의 로컬 회전 : quaternion', object.quaternion);
+            console.log('객체의 회전 : rotation', object.rotation);
+            console.log('객체의 크기 기본 vector3 1, 1, 1 : scale', object.scale);
+
+            console.log('객체의 사용자 정의 데이터 : userData', object.userData);
+
+            console.log('객체가 부여받은 uuid', object.uuid);
+
+            console.log('객체의 렌더링 유무 true면 렌더링 : visible', object.visible);
+            
+            // 이 객체에 자식 객체 추가 object.add(Object3D나 Mesh 등등);
+            // 이 객체의 메트릭스를 재구성 다시 씀 applyMatrix(matrix 4x4);
+            // 자기 자신을 복제하여 리턴 object.clone(true) true의 경우 하위 객체 즉 자식도 복제함
+            var temp = object.clone();
+            console.log(temp);
+            console.log(temp.id);
+            console.log(object.id);  
+            console.log('temp.uuid === object.uuid', temp.uuid === object.uuid);
+
+            // 이 객체를 인자의 객체로 카피함 object.copy(오브젝트3D, true로 지정시 자식도 카피함)
+
+            // 하위에 대한 추적
+            // 아이디 추적 object.getObjectById(id);
+            // 이름 추적 object.getObjectByName(name);
+            // 속성 추적 object.getObjectByProperty(속성명, 속성값)
+
+            // 객체의 포지션 반환 object.getWorldPosition()
+            // 객체의 쿼터니언 반환 object.getWorldQuaternion()
+            // 객체의 회전 반환 object.getWorldRotation()
+            // 객체의 스케일 반환 object.getWorldScale()
+
+            // 객체가 해당 위치를 바라봄 object.lookAt(vector3)
+
+
+            // 객체의 자식 제거 object.remove(Object3D나 Mesh 등등)
+
+            // 아래 비교 : 축을 따라 객체를 회전시킴 radian  단위로 
+            // object.rotateOnAxis ( new THREE.Vector3(0, 1, 1), 1);
+            // object.rotateOnAxis ( new THREE.Vector3(0, 1, 0), 1);
+            // object.rotateOnAxis ( new THREE.Vector3(1, 0, 0), 1);
+
+            // 각각의 축을 따라 객체를 회전함
+            // object.rotateX(radian)
+            // object.rotateY(radian)
+            // object.rotateZ(radian)
+
+            // 아래 비교 : 축을 따라 객체를 이동시킴 거리 만큼 
+            // object.translateOnAxis ( new THREE.Vector3(0, 1, 1), 1);
+            // object.translateOnAxis ( new THREE.Vector3(0, 1, 0), 1);
+            // object.translateOnAxis ( new THREE.Vector3(1, 0, 0), 1);
+
+            // 각각의 축을 따라 객체를 회전함
+            // object.translateX(radian)
+            // object.translateY(radian)
+            // object.translateZ(radian)
+
+            // 자신을 포함한 하위 자식 객체들을 콜백으로 출력함 
+            console.log('traverse');
+            object.traverse(function(item){
+                console.log(item);
+            
+            });
+
+            // 렌더링되어 보이는것만 콜백으로 출력 : object.traverseVisible(function(item){});
+            // 상위 조상 객체들을 콜백으로 출력함 : object.traverseAncestors(function(item){});
+            
+
+        }
+
+        </script>
+    </body>
+
+</html>
